@@ -413,7 +413,7 @@ def buyMask(sku_id):
     risk_control = get_checkout_page_detail()
     if risk_control == '刷新太频繁了':
         return False
-    if len(risk_control) > 0:
+    if len(risk_control) >= 0:  # '>' 改成 '>='
         if submit_order(session, risk_control, sku_id, skuids, submit_Time, encryptClientInfo, is_Submit_captcha,
                         payment_pwd, submit_captcha_text, submit_captcha_rid):
             return True
@@ -437,11 +437,12 @@ def V3AutoBuy(inStockSkuid):
         logger.info('[%s]类型口罩有货啦!马上下单', skuId)
         skuidUrl = 'https://item.jd.com/' + skuId + '.html'
         if buyMask(skuId):
-            message.send(skuidUrl, True)
+            #message.send(skuidUrl, True)  # 屏蔽
             sys.exit(1)
         else:
             if item_removed(skuId):
-                message.send(skuidUrl, False)
+                #message.send(skuidUrl, False)  # 屏蔽
+                pass
             else:
                 logger.info('[%s]已下柜商品', skuId)
                 sys.exit(1)
